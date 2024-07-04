@@ -6,7 +6,7 @@ import { ref, watch, computed } from 'vue'
 import useAlert from './useAlert'
 import useProfiles from './useProfiles'
 
-export default function useAttachments() {
+export default function useAttachments(computedItem) {
 
     const route = useRoute()
     const store = useStore()
@@ -94,12 +94,12 @@ export default function useAttachments() {
         setMyAttachment()
     }
 
-    function setMyAttachment(itemable) {
+    function setMyAttachment() {
         if (!store.getters.getUser) return
 
-        if (itemable && itemable.hasOwnProperty('attachments')) return
+        if (!computedItem?.hasOwnProperty('attachments')) return
 
-        attachmentData.value.myAttachments = itemable.attachments
+        attachmentData.value.myAttachments = computedItem.attachments
             .filter(attachment => {
                 return attachment.user_id == store.getters.getUser.id
             }).map(attachment=>{
@@ -111,7 +111,7 @@ export default function useAttachments() {
                 }
             })
 
-        attachmentData.value.postAttachments = itemable.attachments.map(attach=>{
+        attachmentData.value.postAttachments = computedItem.attachments.map(attach=>{
             return {
                 data: {name: attach.name},
                 type: strings.getAccount(attach.attachedwith_type)

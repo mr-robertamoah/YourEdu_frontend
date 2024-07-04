@@ -1,9 +1,9 @@
 <template>
     <div class="flex justify-between items-center px-2 relative">
-        <div class="absolute -bottom-1 w-full left-0 h-1 rounded bg-gradient-to-r from-youredubrown to-youredugreen"></div>
+        <div class="absolute -bottom-1 z-10 w-full left-0 h-1 rounded bg-gradient-to-r from-youredubrown to-youredugreen"></div>
         <YourEduLogo
             class="w-16 cursor-pointer"
-            @click="() => router.push('/')"
+            @click="clickedLogo"
         />
         <div class="main-alert" v-if="alerts.length">
             <main-alert
@@ -103,7 +103,7 @@
                 class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
                 v-if="computedUser"
                 @click="navLogout"
-            >Logout</div>
+            >{{loggingOut ? 'logging out..' : `Logout`}}</div>
         </div>
         <div class="nav-outer">
             <request-modal
@@ -148,6 +148,7 @@ defineProps({
 
 const navState = ref(['fa','bars'])
 const show = ref(false)
+const loggingOut = ref(false)
 const showProfiles = ref(false)
 const showActions = ref(false)
 ///follow requests
@@ -261,6 +262,7 @@ function showOrHide() {
     show.value = false
     showProfiles.value = false
 }
+
 function clickedRemoveAlert(id){
     let index = alerts.value.findIndex(a=>{
         return a.id === id
@@ -269,11 +271,22 @@ function clickedRemoveAlert(id){
         alerts.value.splice(index,1)
     }
 }
+
 function clearAlert(id){
     setTimeout((id) => {
         clickedRemoveAlert(id)
     }, 5000);
 }
+
+function clickedLogo() {
+    if (route.name == 'home') {
+        router.push('/about')
+        return
+    }
+
+    router.push('/')
+}
+
 function handleNotification(notification) {
     console.log(notification);
     let alert = {
@@ -474,7 +487,12 @@ function listen(){
     }
 }
 async function navLogout(){
+    loggingOut.value = true
+
     const result = await store.dispatch('logout')
+
+    loggingOut.value = false
+    showActions.value = false
 
     if (result.status && computedRouteName !== 'home')
         router.push('/')

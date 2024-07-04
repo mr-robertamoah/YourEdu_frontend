@@ -5,6 +5,7 @@ export default {
   // purge: [],
     content: [
       './src/**/*.vue',
+      './index.html',
   ],
   theme: {
     extend: {

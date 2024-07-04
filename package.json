@@ -14,6 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@heroicons/vue": "^2.1.4",
     "@popperjs/core": "^2.11.2",
     "get-blob-duration": "^1.2.0",
     "gsap": "^3.6.1",

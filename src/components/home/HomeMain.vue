@@ -26,7 +26,7 @@
             v-else-if="!loading && !computedPostCreate"
             @askLoginRegister="askLoginRegister"
         >
-            must finish work on this
+            <!-- TODO must finish work on this -->
         </div>
         <div class="loading" v-if="loading">
             <pulse-loader
@@ -35,7 +35,7 @@
         </div>
         <div 
             v-if="posts"
-            class="w-[90%] mx-auto md:max-w-xl space-y-12"
+            class="w-[90%] mx-auto md:max-w-xl space-y-12 mt-20"
         >
             <template
                 v-for="post in posts"

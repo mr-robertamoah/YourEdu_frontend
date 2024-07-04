@@ -1,5 +1,5 @@
 <template>
-    <div class="home-wrapper bg-whitesmoke min-h-screen pb-4">
+    <div class="home-wrapper bg-whitesmoke min-h-screen pb-4 overflow-y-auto">
         <app-nav class="mb-4"></app-nav>
         <div class="">
             <div class="w-fit mx-auto relative">
@@ -210,7 +210,14 @@ watchEffect(() => {
         !menuValue.value
     ) return
 
-    if (initialCall.value) return
+    if (
+        initialCall.value ||
+        (
+            store.getters[`home/getHome${_.capitalize(
+                `${sideValue.value}${_.capitalize(menuValue.value === 'all' ? '' : menuValue.value)}`
+            )}`]?.length
+        )
+    ) return
 
     initialCall.value = true
     getPosts()

@@ -254,7 +254,6 @@ import useFlags from '../composables/useFlags'
 import useParticipations from '../composables/useParticipations'
 
 const { profilesAppear, clearProfilesData, profilesData, computedProfiles } = useProfiles()
-const { attachmentData, attach, listenForAttachments, setMyAttachment } = useAttachments()
 const { alertData, clearAlert } = useAlert()
 const { 
     modalData, closeModal, showModal, clearSmallModal, issueCustomMessage, issueSmallModalInfoMessage,
@@ -289,6 +288,11 @@ const props = defineProps({
             return null
         },
     },
+})
+const { attachmentData, attach, listenForAttachments, setMyAttachment } = useAttachments({
+    itemId: props.post?.id,
+    attachments: props.post?.attachments,
+    item: 'post'
 })
 const { showAddComment, computedComments, listenForComments } = useComments({
     itemId: props.post?.id,

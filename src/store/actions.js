@@ -301,9 +301,9 @@ const actions = {
         let response = await UserService.logout()
         let status = false
 
-        if (response.data.message === 'successful') {
+        if (response.data?.message === 'successful') {
             commit('LOGOUT')
-            TokenService.removeToken()
+            
             status = true
         } else {
             console.log(response);

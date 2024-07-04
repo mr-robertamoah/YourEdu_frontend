@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="overflow-y-auto">
         <div class="loading" v-if="authenticatingUser">
             <sync-loader :loading="authenticatingUser"></sync-loader>
         </div>

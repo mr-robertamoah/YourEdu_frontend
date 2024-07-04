@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard-wrapper"> 
+    <div class="dashboard-wrapper overflow-y-auto"> 
         <div class="loading" v-if="authenticatingUser">
             <pulse-loader :loading="authenticatingUser"></pulse-loader>
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="overflow-y-auto">
         <div class="loading" v-if="computedLoading">
             <sync-loader
                 :loading="computedLoading"

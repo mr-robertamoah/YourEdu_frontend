@@ -4,100 +4,95 @@
         <textarea :name="textName" :id="textId" class="form-control" :disabled="disabled"
             :placeholder="textPlaceholder" 
             @input="inputValue"
-            :value="value"
+            :value="modelValue"
             :style="inputStyle"
             ref="inputtextarea"
             :class="{sm:sm}"
         ></textarea>
         <div class="max-section" v-if="hasMax">
-            {{`${value.length}/${inputMax}`}}
+            {{`${modelValue.length}/${inputMax}`}}
         </div>
     </div>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, ref, watch } from 'vue'
 
-    export default {
-        watch: {
-            value() {
-                this.autoResize()
-            }
-        },
-        props: {
-            textName: {
-                type: String,
-                default: ''
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            sm: {
-                type: Boolean,
-                default: false
-            },
-            value: {
-                type: String,
-                default: ''
-            },
-            hasMax: {
-                type: Boolean,
-                default: false
-            },
-            inputMax: {
-                type: Number,
-                default: 100
-            },
-            textPlaceholder: {
-                type: String,
-                default: ''
-            },
-            textId() {
-                return {
-                    type: String,
-                    default: ''
-                }
-            },
-        },
-        data() {
-            return {
-                inputHeight: '0',
-            }
-        },
-        watch: {
-            value(newValue, oldValue) { //uses @input and value to implement
-                if (this.hasMax) {
-                    if (newValue.length > this.inputMax) {
-                        this.$emit('input',oldValue)
-                    }
-                }
-            }
-        },
-        computed: {
-            inputStyle () {
-                return {
-                    'min-height': this.inputHeight
-                }
-            }
-        },
-        mounted () {
-            this.autoResize()
-        },
-        methods: {
-            inputValue($event) {
-                this.$emit('input',$event.target.value)
-                this.autoResize()
-            },
-            autoResize(){
-                // console.log(this.$refs.inputtextarea)
-                if (this.$refs.inputtextarea) {
-                    
-                    this.$refs.inputtextarea.style.height = "1px";
-                    this.$refs.inputtextarea.style.height = `${this.$refs.inputtextarea.scrollHeight}px`;
-                }
-            },
-        },
+const emits = defineEmits(['update:modelValue'])
+
+const props = defineProps({
+    textName: {
+        type: String,
+        default: ''
+    },
+    disabled: {
+        type: Boolean,
+        default: false
+    },
+    sm: {
+        type: Boolean,
+        default: false
+    },
+    modelValue: {
+        type: String,
+        default: ''
+    },
+    hasMax: {
+        type: Boolean,
+        default: false
+    },
+    inputMax: {
+        type: Number,
+        default: 100
+    },
+    textPlaceholder: {
+        type: String,
+        default: ''
+    },
+    textId() {
+        return {
+            type: String,
+            default: ''
+        }
+    },
+})
+
+watch(() => props.modelValue, (newValue, oldValue) => {
+    if (props.hasMax) {
+        if (newValue.length > props.inputMax) {
+            emits('update:modelValue', oldValue)
+        }
     }
+
+    autoResize()
+})
+
+const inputStyle = computed(() => {
+    return {
+        'min-height': inputHeight.value
+    }
+})
+
+onMounted(() => {
+    autoResize()
+})
+
+const inputHeight = ref('0')
+const inputtextarea = ref(null)
+
+function inputValue($event) {
+    emits('update:modelValue', $event.target.value)
+    autoResize()
+}
+
+function autoResize(){
+    // console.log(this.$refs.inputtextarea)
+    if (inputtextarea.value) {
+        
+        inputtextarea.value.style.height = "1px";
+        inputtextarea.value.style.height = `${inputtextarea.value.scrollHeight}px`;
+    }
+}
 </script>
 
 <style lang="scss" scoped>

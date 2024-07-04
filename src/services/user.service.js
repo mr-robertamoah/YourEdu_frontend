@@ -284,18 +284,16 @@ const UserService = {
 
             let response = await ApiService.post('api/logout')
             
-            TokenService.removeToken()
-            // TokenService.removeUser()
+            TokenService.removeUser()
+            
             ApiService.removeHeaderAuth()
 
             ApiService.unmount401Interceptor()
 
             return response
         } catch (error) {
-            
+            return error.response
         }
-
-        return true
     }
 }
 
