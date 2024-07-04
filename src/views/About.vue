@@ -22,13 +22,16 @@
             </div>
 
             <div class="">
-                <FadeUp>
-                    <template #transition>
+                <!-- <FadeUp>
+                    <template #transition> -->
                         <div 
                             v-if="currentPageIdx == 1" 
-                            class="w-full min-h-screen grid grid-cols-1 gap-4 md:gap-2 md:grid-cols-2 bg-youredubrown"
+                            class="
+                                w-full min-h-screen grid grid-cols-1 gap-4 md:gap-2 md:grid-cols-2 
+                                bg-gradient-to-br from-youredubrown to-fuchsia-800 animate-gradient
+                            "
                         >
-                            <div class="h-[50vh] md:h-fit">
+                            <div class="min-h-[30vh] md:h-fit p-4">
                                 <WriteableText
                                     :messages="[
                                         'hello there!',
@@ -42,7 +45,7 @@
                                     class="mt-20 w-[80%] mx-auto text-wrap bg-gradient-to-r from-whitesmoke text-center md:w-[90%] to-youredugreen text-2xl font-semibold bg-clip-text text-transparent"
                                 >education through liberalisation and socialisation</div>
                             </div>
-                            <div class="w-full h-screen flex justify-center items-center">
+                            <div class="w-full md:h-screen flex justify-center items-start md:items-center h-fit">
                                 <SlideRight>
                                     <template #transition>
                                         <div
@@ -88,12 +91,16 @@
                         
                         <div 
                             v-if="currentPageIdx == 2" 
-                            class="w-full min-h-screen grid grid-cols-1 gap-4 md:gap-2 md:grid-cols-2 bg-whitesmoke overflow-y-auto pb-10"
+                            class="
+                                w-full min-h-screen grid grid-cols-1 gap-4 md:gap-2 md:grid-cols-2 
+                                bg-gradient-to-br from-fuchsia-800 to-blue-800 animate-gradient
+                                overflow-y-auto pb-10
+                            "
                         >
-                            <div class="font-bold text-2xl md:text-3xl capitalize mt-20 w-fit mx-auto text-youredubrown pt-10 my-4">about</div>
+                            <div class="font-bold text-2xl md:text-3xl capitalize mt-20 w-fit mx-auto text-white pt-10 my-4">about</div>
                             
                             <div>
-                                <div class="relative rounded shadow p-6 mx-auto w-[90%] md:mt-4 md:mr-4">
+                                <div class="relative bg-white rounded shadow p-6 mx-auto w-[90%] md:mt-4 md:mr-4">
                                     <BookOpenIcon class="w-5 h-5 absolute top-1 left-1 text-youredubrown"/>
 
                                     <div class="text-sm text-center md:text-justify mt-4">
@@ -104,7 +111,7 @@
                             </div>
                             
                             <div class="mt-10 md:mt-4 md:col-span-2">
-                                <div class="relative rounded shadow p-6 mx-auto w-[90%] md:w-[60%]">
+                                <div class="relative rounded bg-white shadow p-6 mx-auto w-[90%] md:w-[60%]">
                                     <div class="w-20 h-20 rounded-full p-2 bg-youredubrown mx-auto">
                                         <img class="w-full h-full object-fill rounded-full" src="../../public/robertamoah.png" alt="">
                                     </div>
@@ -133,14 +140,17 @@
                         
                         <div 
                             v-if="currentPageIdx == 3" 
-                            class="w-full min-h-screen gap-4 bg-whitesmoke overflow-y-auto pb-10"
+                            class="
+                                w-full min-h-screen gap-4 overflow-y-auto pb-10
+                                bg-gradient-to-br from-blue-800 to-youredubrown animate-gradient
+                            "
                         >
-                            <div class="font-bold text-2xl md:text-3xl capitalize mt-20 w-fit mx-auto text-youredubrown pt-10 my-4">features</div>
+                            <div class="font-bold text-2xl md:text-3xl capitalize mt-20 w-fit mx-auto text-white pt-10 my-4">features</div>
                             
-                            <div class="w-[90%] md:w-[80%] mx-auto md:overflow-x-auto p-2 flex gap-4 flex-col md:flex-row md:justify-start justify-center items-center">
+                            <div class="w-[90%] md:w-[80%] mx-auto md:overflow-x-auto p-2 flex md:py-4 gap-4 flex-col md:flex-row md:justify-start justify-center items-center">
 
                                 <div class="md:min-w-96 w-fit shrink-0">
-                                    <div class="relative rounded shadow p-6 mx-auto w-[90%] md:w-[60%]">
+                                    <div class="relative rounded shadow p-6 mx-auto w-[90%] md:w-[60%] bg-white">
                                         <div class="w-fit  mx-auto my-4 relative">
                                             <video autoplay controls src="../assets/login.mkv" class="w-full md:min-w-64 md:min-h-48 min-h-64 object-scale-down"></video>
                                             <div class="w-full h-1 rounded from-youredubrown to-blue-600 bg-gradient-to-r my-2"></div>
@@ -155,7 +165,7 @@
                                 </div>
 
                                 <div class="md:min-w-96 w-fit shrink-0">
-                                    <div class="relative rounded shadow p-6 mx-auto w-[90%] md:w-[60%]">
+                                    <div class="relative rounded shadow p-6 mx-auto w-[90%] md:w-[60%] bg-white">
                                         <div class="w-fit mx-auto my-4 relative">
                                             <video autoplay controls src="../assets/logout.mkv" class="w-full md:min-w-64 md:min-h-48 min-h-64 object-scale-down"></video>
                                             <div class="w-full h-1 rounded from-youredubrown to-blue-600 bg-gradient-to-r my-2"></div>
@@ -173,9 +183,12 @@
                         
                         <div 
                             v-if="currentPageIdx == 4" 
-                            class="w-full min-h-screen gap-4 bg-whitesmoke overflow-y-auto pb-10"
+                            class="
+                                w-full min-h-screen gap-4 overflow-y-auto pb-10
+                                bg-gradient-to-br from-youredubrown to-fuchsia-800 animate-gradient
+                            "
                         >
-                            <div class="font-bold text-2xl md:text-3xl capitalize mt-20 w-fit mx-auto text-youredubrown pt-10 my-4">get in touch</div>
+                            <div class="font-bold text-2xl md:text-3xl capitalize mt-20 w-fit mx-auto text-white pt-10 my-4">get in touch</div>
                             
                             <YourEduLogo
                                 class="w-32 mt-20 md:w-40 mb-10 mx-auto cursor-pointer"
@@ -183,14 +196,24 @@
                             />
                             <div class="w-[90%] md:w-[80%] mx-auto md:overflow-x-auto p-2 flex gap-4 flex-col md:flex-row md:justify-start justify-center items-center">
                                 <div class="w-fit mx-auto gap-4">
-                                    <div class="text-center w-fit mx-auto bg-gradient-to-r from-youredubrown to-youredugreen bg-clip-text text-transparent text-sm font-semibold">get support</div>
-                                    <div class="p-6 bg-white shadow-sm mt-2 rounded">support@youredu.com</div>
+                                    <div class="text-center w-fit mx-auto bg-gradient-to-r from-whitesmoke to-youredugreen bg-clip-text text-transparent text-sm font-bold">get support</div>
+                                    <div class="p-6 bg-white shadow-sm mt-2 rounded text-sm md:text-base">
+                                        <div>support@youredu.com</div>
+                                        <a href="https://github.com/mr-robertamoah/YourEdu_frontend" class="flex justify-center font-bold text-youredubrown items-center gap-2 w-full mx-auto my-2">
+                                            <GitHubIcon class="w-10 h-10 rounded-full bg-youredubrown"/>
+                                            <div>frontend</div>
+                                        </a>
+                                        <a href="https://github.com/mr-robertamoah/YourEdu_frontend" class="flex justify-center font-bold items-center text-blue-800 gap-2 w-full mx-auto my-2">
+                                            <GitHubIcon class="w-10 h-10 rounded-full bg-blue-800"/>
+                                            <div>backend</div>
+                                        </a>
+                                    </div>
                                 </div>
                                 
                             </div>
                         </div>
-                    </template>
-                </FadeUp>
+                    <!-- </template>
+                </FadeUp> -->
             </div>
         </div>
     </div>
@@ -201,6 +224,7 @@ import FadeUp from "../components/transitions/FadeUp.vue";
 import SlideRight from "../components/transitions/SlideRight.vue";
 import WriteableText from "../components/WriteableText.vue";
 import YourEduLogo from "../components/YourEduLogo.vue";
+import GitHubIcon from "../icons/GitHubIcon.vue";
 import { ref, onMounted } from "vue";
 import { onBeforeRouteLeave, useRouter,  } from "vue-router";
 import { useStore } from "vuex";

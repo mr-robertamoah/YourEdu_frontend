@@ -79,6 +79,21 @@ export default {
         "nwse": "nwse-resize",
         "nesw": "nesw-resize",
       },
+      keyframes: {
+        gradient: {
+          '0% 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left bottom',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right bottom',
+          }
+        }
+      },
+      animation: {
+        gradient: 'gradient 20s ease infinite'
+      }
     },
   },
   variants: {
