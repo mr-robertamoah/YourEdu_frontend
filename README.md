@@ -6,7 +6,7 @@
 
 <h1 style="text-align: center; margin-top: 30px;">YourEdu</h1>
 
-<h2 style="text-align: center;">Backend</h2>
+<h2 style="text-align: center;">Frontend</h2>
 
 ### Introduction
 This is the frontend of the YourEdu educational platform that seeks to bring all major stackholders together into bridging the gaps the exists in educational quality across our societies.
