@@ -1,9 +1,12 @@
-![YourEdu Logo](src/assets/logo.png)
+<div align="center">
+
+<img src="src/assets/logo.png" alt="YourEdu Logo" width="400"/>
+</div>
 
 
-<h1 style="text-align: center;">YourEdu</h1>
+<h1 style="text-align: center; margin-top: 30px;">YourEdu</h1>
 
-<h2 style="text-align: center;">BACKEND</h2>
+<h2 style="text-align: center;">Backend</h2>
 
 ### Introduction
 This is the frontend of the YourEdu educational platform that seeks to bring all major stackholders together into bridging the gaps the exists in educational quality across our societies.
@@ -16,6 +19,13 @@ Explore the [app](https://bobdev.tech) or visit its [landing page](https://bobde
     <img src="src/assets/robertamoah.png" style="border-radius: 100%" width="45" heigth="45" />
     Robert Amoah (<a href="https://www.linkedin.com/in/mr-robert-amoah">linkedIn</a>, <a href="https://x.com/Mr_robertamoah">X</a>) - Full stack developer 
 </p>
+
+### Technologies
+
+- Vite (asset bundling)
+- Vuejs 3 (frontend framework)
+- Vue-router (navigation)
+- Vuex (state management)
 
 ### Installation
 
