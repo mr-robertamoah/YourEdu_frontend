@@ -12,14 +12,14 @@
                     <label for="login-username">username *</label>
                     <text-input placeholder="your username"
                         v-model="data.username"
-                        :error='errors.username'
+                        :error='!!errors.username'
                     ></text-input>
                 </div>
                 <div class="form-group form-section" v-else-if="signinWith==='email'">
                     <label for="login-email">email *</label>
                     <text-input placeholder='your email'
                         v-model="data.email"
-                        :error='errors.email'
+                        :error='!!errors.email'
                     ></text-input>
                 </div>
                 <div class="form-group form-section">
@@ -27,7 +27,7 @@
                     <text-input placeholder="your password"
                         :inputType="passwordType" 
                         v-model="data.password"
-                        :error='errors.password'
+                        :error='!!errors.password'
                         @iconChange='passwordIconChange' 
                         :title='passwordTitle'
                         :icon='passwordIcon'

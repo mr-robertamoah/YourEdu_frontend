@@ -29,13 +29,13 @@ class StorageService {
         this.storage.setItem(key, value)
     }
     
-    get(key, parse = true){
+    async get(key, parse = true){
+        let item = await this.storage.getItem(key)
 
-        if (parse) {
-            return JSON.parse(this.storage.getItem(key))
-        }
+        if (parse && !item)
+            return JSON.parse(item)
 
-        return this.storage.getItem(key)
+        return item
     }
     
     remove(key){

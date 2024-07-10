@@ -13,14 +13,14 @@
                         <label for="login-username">username *</label>
                         <text-input placeholder="your username"
                             v-model="data.username"
-                            :error='errors.username'
+                            :error='!!errors.username'
                         ></text-input>
                     </div>
                     <div class="form-group form-section">
                         <label for="login-email">email</label>
                         <text-input placeholder="your email"
                             v-model="data.email"
-                            :error='errors.email'
+                            :error='!!errors.email'
                         ></text-input>
                     </div>
                     <div class="form-group form-section">
@@ -28,10 +28,11 @@
                         <text-input placeholder="your password"
                             :textInput="passwordType" 
                             v-model="data.password"
-                            :error='errors.password'
+                            :error='!!errors.password'
                             @iconChange='passwordIconChange' 
                             :title='passwordTitle'
                             :icon='passwordIcon'
+                            :inputType="passwordType"
                             :prepend='true'
                         ></text-input>
                     </div>
@@ -40,7 +41,8 @@
                         <text-input placeholder="your password confirmation"
                             :textInput="passwordConfirmationType" 
                             v-model="data.passwordConfirmation"
-                            :error='errors.passwordConfirmation'
+                            :error='!!errors.passwordConfirmation'
+                            :inputType="passwordType"
                             @iconChange='passwordIconChange' 
                             :title='passwordConfirmationTitle'
                             :icon='passwordIcon'
@@ -69,8 +71,12 @@
                     </div>
                     <div class="form-group form-section register-datepicker-section">
                         <label for="register-datepicker">date of birth</label>
-                        <FlatPickrInput id="register-datepicker" :config="config"
-                            v-model="data.dob" class=" form-control mb-2"></FlatPickrInput>
+                        <!-- <FlatPickrInput id="register-datepicker" :config="config"
+                            v-model="data.dob" class=" form-control mb-2"></FlatPickrInput> -->
+                        <text-input placeholder="select date of birth"
+                            v-model="data.dob"
+                            :inputType="'date'"
+                        ></text-input>
                     </div>
                     <button class="btn login-btn mb-3" 
                         @click.prevent="sendRegistrationDetails">register</button>
@@ -92,7 +98,7 @@ import LoginRegisterOutline from '../components/LoginRegisterOutline.vue'
 import TextInput from '../components/TextInput.vue'
 import { mapActions, mapGetters, useStore } from "vuex";
 import { ref, watch } from 'vue';
-import "v3-infinite-loading/lib/style.css"
+// import "v3-infinite-loading/lib/style.css"
 import FlatPickrInput from '../components/FlatPickrInput.vue';
 
 const store = useStore()
@@ -196,7 +202,7 @@ async function sendRegistrationDetails(){
         username: data.value.username.trim(),
         email: data.value.email.trim(),
         password: data.value.password.trim(),
-        password_confirmation: data.value.passwordConfirmation.trim(),
+        passwordConfirmation: data.value.passwordConfirmation.trim(),
         first_name: data.value.firstName.trim(),
         last_name: data.value.lastName.trim(),
         other_names: data.value.otherNames.trim(),
@@ -207,7 +213,7 @@ async function sendRegistrationDetails(){
 
     if (!response.status) return
 
-    if (response.token) router().push( route().query?.redirectTo || '/welcome')
+    if (response.user) router.push( route.query?.redirectTo || '/welcome')
 
     clearCredentials()
 }

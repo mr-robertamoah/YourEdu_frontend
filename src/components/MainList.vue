@@ -163,7 +163,7 @@ $second-color: rgba(22, 233, 205, 1);
 $third-color: rgba(102, 51, 153, .2);
 
     .list-wrapper{
-        width: 90%;
+        width: 100%;
         padding: 10px;
         background-color: $first-color;
         margin: 10px auto;
@@ -184,7 +184,7 @@ $third-color: rgba(102, 51, 153, .2);
         }
 
         .list-item{
-            width: 90%;
+            width: 100%;
             margin: 5px auto;
             padding: 5px;
             border: 1px solid $second-color;

@@ -31,79 +31,90 @@
             ></font-awesome-icon>
         </div>
 
-        <div 
+        <div
             :class="[showActions ? 'block' : 'hidden']"
-            class="absolute top-[100%] z-[1000] right-2 min-w-48 bg-white shadow-sm rounded p-2 py-4 text-center space-y-2"
+            class="absolute bg-transparent block h-screen right-0 top-0 w-full z-10"
+            @click.self="() => showActions = false"
         >
-            <div
-                v-if="computedRouteName != 'home'"
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                @click="() => router.push({name: 'home'})"
-            >Home</div>
             <div 
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                v-if="computedRegistration"
-                @click="() => router.push('/register')"
-            >Register</div>
-            <div 
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                v-if="computedLogin"
-                @click="() => router.push('/login')"
-            >Login</div>
-            <div
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                v-if="computedUser"
-                @click="() => router.push({name: 'welcome'})"
-            >User Profile</div>
-            <div 
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                v-if="computedDashboard" 
-                @click="() => router.push('/dashboard')"
-            >Dashboard</div>
-            <div
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                v-if="computedProfiles && computedUser"
-                @click.prevent="showProfiles = !showProfiles"
-            >Profiles</div>
-            <div
-                v-if="computedProfiles && computedUser"
+                :class="[showActions ? 'block' : 'hidden']"
+                class="absolute top-[7%] z-[1000] right-2 min-w-48 bg-white shadow-sm rounded p-2 py-4 text-center space-y-2"
             >
                 <div
+                    v-if="computedRouteName != 'home'"
                     class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                    @click.self="clickedRequest"
-                >Requests</div>
+                    @click="() => router.push({name: 'home'})"
+                >Home</div>
+                <div 
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedRegistration"
+                    @click="() => router.push('/register')"
+                >Register</div>
+                <div 
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedLogin"
+                    @click="() => router.push('/login')"
+                >Login</div>
                 <div
-                    class="notification"
-                    v-if="requestNotifications.length"
-                >{{requestNotifications.length}}</div>
-                <template v-if="requestModalType == 'requests' && showRequestModal">
-                    <div v-for="(profile,key) in computedProfiles"
-                        :key="key">
-                        <profile-bar
-                            v-if="profileAccount != profile.account ||
-                                profileAccountId != profile.accountId"
-                            :profile="profile"
-                        ></profile-bar>
-                    </div>
-                </template>
-            </div>
-            <div
-                v-if="computedUser" 
-                class="request"
-                @click="clickedNotifications">
-                    <div>
-                        <font-awesome-icon :icon="['fa','bell']"></font-awesome-icon>
-                    </div>
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedUser"
+                    @click="() => router.push({name: 'welcome'})"
+                >User Profile</div>
+                <div 
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedDashboard" 
+                    @click="() => router.push('/dashboard')"
+                >Dashboard</div>
+                <div
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedProfiles && computedUser"
+                    @click.prevent="showProfiles = !showProfiles"
+                >Profiles</div>
+                <div
+                    v-if="computedProfiles && computedUser"
+                >
+                    <div
+                        class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                        @click.self="clickedRequest"
+                    >Requests</div>
                     <div
                         class="notification"
-                        v-if="otherNotifications.length"
-                    >{{otherNotifications.length}}</div>
+                        v-if="requestNotifications.length"
+                    >{{requestNotifications.length}}</div>
+                    <template v-if="requestModalType == 'requests' && showRequestModal">
+                        <div v-for="(profile,key) in computedProfiles"
+                            :key="key">
+                            <profile-bar
+                                v-if="profileAccount != profile.account ||
+                                    profileAccountId != profile.accountId"
+                                :profile="profile"
+                            ></profile-bar>
+                        </div>
+                    </template>
+                </div>
+                <div
+                    v-if="computedUser" 
+                    class="request"
+                    @click="clickedNotifications">
+                        <div>
+                            <font-awesome-icon :icon="['fa','bell']"></font-awesome-icon>
+                        </div>
+                        <div
+                            class="notification"
+                            v-if="otherNotifications.length"
+                        >{{otherNotifications.length}}</div>
+                </div>
+                <div
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedUser"
+                    @click="navLogout"
+                >{{loggingOut ? 'logging out..' : `Logout`}}</div>
+                <div
+                    class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
+                    v-if="computedRouteName !== 'about'"
+                    @click="() => router.push('/about')"
+                >About</div>
             </div>
-            <div
-                class="border-b-2 border-transparent hover:border-youredubrown w-fit mx-auto cursor-pointer hover:bg-gradient-to-r from-youredubrown to-youredugreen hover:bg-clip-text hover:text-transparent hover:font-bold transition duration-75" 
-                v-if="computedUser"
-                @click="navLogout"
-            >{{loggingOut ? 'logging out..' : `Logout`}}</div>
         </div>
         <div class="nav-outer">
             <request-modal
@@ -184,19 +195,19 @@ const computedRouteName = computed(() => {
     return route.name
 })
 const computedRegistration = computed(() => {
-    return store.getters.getLoggedin ? false : 
+    return computedUser.value ? false : 
         computedRouteName.value !== 'register' ? true : false
 })
 const computedLogin = computed(() => {
-    return store.getters.getLoggedin ? false : 
+    return computedUser.value ? false : 
         computedRouteName.value !== 'login' ? true : false
 })
 const computedWelcome = computed(() => {
-    return store.getters.getLoggedin ? 
+    return computedUser.value ? 
         computedRouteName.value === 'welcome' ? false : true : false
 })
 const computedDashboard = computed(() => {
-    return store.getters.getLoggedin ? 
+    return computedUser.value ? 
         computedRouteName.value === 'dashboard' ? false : true : false
 })
 const computedProfiles = computed(() => {

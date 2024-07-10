@@ -10,23 +10,22 @@ const TokenService = {
         window.YoureduStorage.set(TOKEN_KEY,accessToken, false)
     },
 
-    setUser(user){
-        window.YoureduStorage.set(USER_KEY, JSON.stringify(user))
+    async setUser(user){
+        if (!user) return
+
+        await window.YoureduStorage.set(USER_KEY, JSON.stringify(user))
     },
     
-    getUser(){
-        const user = window.YoureduStorage.get(USER_KEY)
-
-        if (user) return JSON.parse(user)
-        return user
+    async getUser(){
+        return await window.YoureduStorage.get(USER_KEY)
     },
     
     getToken(){
         return window.YoureduStorage.get(TOKEN_KEY, false)
     },
     
-    removeUser(){
-        window.YoureduStorage.remove(USER_KEY)
+    async removeUser(){
+        await window.YoureduStorage.remove(USER_KEY)
     },
     
     removeToken(){

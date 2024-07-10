@@ -1,6 +1,6 @@
 <template>
     <just-fade>
-        <template slot="transition" v-if="show">
+        <template #transition v-if="show">
             <main-modal
                 :show="show"
                 :main="false"
@@ -9,12 +9,12 @@
                 class="modal-wrapper"
                 :scrollUp="scrollUp"
             >
-                <template slot="main-other">
+                <template #main-other>
                     <welcome-form 
                         class="welcome-form"
                         :title="title"
                     >
-                        <template slot="input">
+                        <template #input>
                             <auto-alert
                                 :message="alertMessage"
                                 :danger="alertDanger"
@@ -216,7 +216,7 @@
                                 </div>
                             </div>
                             <fade-up>
-                                <template slot="transition" v-if="showFilePreview">
+                                <template #transition v-if="showFilePreview">
                                     <file-preview
                                         class="file-preview"
                                         :file="activeFile"
@@ -233,7 +233,7 @@
                             >
                         </template>
             
-                        <template slot="buttons">
+                        <template #buttons>
                             <div class="profiles"
                                 v-if="showProfiles"
                             >

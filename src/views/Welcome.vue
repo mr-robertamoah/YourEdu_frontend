@@ -1,43 +1,110 @@
 <template>
-    <div class="overflow-y-auto">
+    <div class="overflow-y-auto bg-whitesmoke">
         <div class="loading" v-if="authenticatingUser">
             <sync-loader :loading="authenticatingUser"></sync-loader>
         </div>
         <div v-else>
             <app-nav></app-nav>
-            <div class="welcome-wrapper">
+            <div class="welcome-wrapper bg-whitesmoke">
                 <div class="welcome-message">
-                    <div class="first-section" v-if="newCreation">
-                        yay! welcome
-                        <div class="name">
-                            {{ getUserUsername ? getUserUsername : '@newuser'}}
+                    <div 
+                        class="
+                            bg-white shadow-sm p-2 rounded-md my-4 w-[90%] md:w-[70%] mx-auto
+                            text-sm text-gray-600 min-h-32
+                        " 
+                        v-if="newCreation"
+                    >
+                        <div
+                            class="flex justify-center items-center gap-2 my-4 text-base"
+                        >
+                            <div>yay! welcome</div>
+                            <div 
+                                class="bg-gradient-to-r from-youredubrown to-youredugreen text-transparent w-fit bg-clip-text font-bold"
+                            >
+                                @{{ getUserUsername ? getUserUsername : 'newuser'}}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            we hope you do enjoy this new experience of social education
+                        </div>
+                        <div class="special text-xs">
+                            Note: Everything on this page deals with the updating user information and the creation of your personal accounts. If you want more power
+                            to do other things, then visit the dashboard
                         </div>
                     </div>
-                    <div class="second-section" 
-                        @mouseover="showEditBadge = true"
-                        @mouseleave="showEditBadge = false"
+                    <div 
+                        class="second-section bg-white shadow-sm p-2 rounded-md my-4 w-[90%] md:w-[70%] mx-auto
+                            text-sm text-gray-600 min-h-32
+                        "
                     >
-                        <fade-left>
-                            <template slot="transition">
-                                <black-white-badge
-                                    text="edit"
-                                    v-if="showEditBadge"
-                                    @click="editUser"
-                                ></black-white-badge>
-                            </template>
-                        </fade-left>
-                        <div class="name">
-                            {{ getUser ? getUser.fullName : 'new user'}}
+                        <div class="name font-bold">
+                            {{ getUser ? getUser.fullName : 'update name'}}
                         </div>
-                        we hope you do enjoy this new experience of social education
-                        <div class="special">
-                            Note: Everything on this page deals with the creation of your personal accounts. If you want more power
-                            to do other things, then visit the dashboard
+
+                        <div class="w-[90%] sm:w-[80%] mx-auto p-2 my-4 relative">
+                            <div class="font-bold my-2">About</div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-sm text-gray-600 text-right">first name:</div>
+                                <div 
+                                    class="col-span-2 font-semibold text-center"
+                                    :class="[getUser?.firstName ? 'capitalize' : 'text-xs text-gray-600']"
+                                >{{ getUser?.firstName ?? 'no first name'}}</div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-sm text-gray-600 text-right">last name:</div>
+                                <div 
+                                    class="col-span-2 font-semibold text-center"
+                                    :class="[getUser?.lastName ? 'capitalize' : 'text-xs text-gray-600']"
+                                >{{ getUser?.lastName ?? 'no last name'}}</div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-sm text-gray-600 text-right">other names:</div>
+                                <div 
+                                    class="col-span-2 font-semibold text-center"
+                                    :class="[getUser?.otherNames ? 'capitalize' : 'text-xs text-gray-600']"
+                                >{{ getUser?.otherNames ?? 'no other names'}}</div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-sm text-gray-600 text-right">date of birth:</div>
+                                <div 
+                                    class="col-span-2 font-semibold text-center"
+                                    :class="[getUser?.dob ? 'capitalize' : 'text-xs text-gray-600']"
+                                >{{ getUser?.dob ? computedDob : 'no date of birth'}}</div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-sm text-gray-600 text-right">gender:</div>
+                                <div 
+                                    class="col-span-2 font-semibold text-center"
+                                    :class="[getUser?.gender ? 'capitalize' : 'text-xs text-gray-600']"
+                                >{{ getUser?.gender ?? 'not set'}}</div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-4">
+                                <div class="text-sm text-gray-600 text-right">email:</div>
+                                <div 
+                                    class="col-span-2 font-semibold text-center"
+                                    :class="[getUser?.email ? '' : 'text-xs text-gray-600']"
+                                >{{ getUser?.email ?? 'no email'}}</div>
+                            </div>
+                            
+                            <div class="edit-user mt-4 flex justify-end">
+                                <post-button buttonText='edit user'
+                                    @click="editUser"
+                                ></post-button>
+                            </div>
+
+                            <div class="w-full h-1 rounded absolute top-0 left-0 bg-gradient-to-r from-youredubrown to-youredugreen"></div>
                         </div>
                     </div>
                 </div>
                 <div class="welcome-body">
-                    <div class="welcome-places">
+                    <div class="welcome-places bg-white shadow-md p-4">
                         <div class="places-heading">
                             the locations you should know about
                         </div>
@@ -45,34 +112,38 @@
                         <welcome-button @welcomeButtonClicked="home=!home" :activeClass="home" buttonText='home'>
                         </welcome-button>
                         <fade-in-out>
-                            <template slot="transition">
+                            <template #transition>
                                 <place-description v-if="home">
-                                    <div slot="body" class="section-body">
-                                        this is where the entire community of
-                                        
-                                        <div class="image">
-                                            <!-- <img src="YPlogo.png"> -->
-                                            <span class="caption">learners</span>
-                                        </div> 
-                                        <div class="image">
-                                            <!-- <img src="YPlogo.png"> -->
-                                            <span class="caption">facilitators</span>
+                                    <template #body>
+                                        <div class="section-body">
+                                            this is where the entire community of
+                                            
+                                            <div class="image">
+                                                <!-- <img src="YPlogo.png"> -->
+                                                <span class="caption">learners</span>
+                                            </div> 
+                                            <div class="image">
+                                                <!-- <img src="YPlogo.png"> -->
+                                                <span class="caption">facilitators</span>
+                                            </div>
+                                            
+                                            <div class="image">
+                                                <!-- <img src="YPlogo.png"> -->
+                                                <span class="caption">schools</span>
+                                            </div> 
+                                            <div class="image">
+                                                <!-- <img src="YPlogo.png"> -->
+                                                <span class="caption">educational professionals</span>
+                                            </div> will socially interact, "educationally..."
                                         </div>
-                                        
-                                        <div class="image">
-                                            <!-- <img src="YPlogo.png"> -->
-                                            <span class="caption">schools</span>
-                                        </div> 
-                                        <div class="image">
-                                            <!-- <img src="YPlogo.png"> -->
-                                            <span class="caption">educational professionals</span>
-                                        </div> will socially interact, "educationally..."
-                                    </div>
-                                    <div slot="button">
-                                        <post-button buttonText='home'
-                                            @click="clickedPostButton"
-                                        ></post-button>
-                                    </div>
+                                    </template>
+                                    <template #button>
+                                        <div>
+                                            <post-button buttonText='home'
+                                                @click="clickedPostButton"
+                                            ></post-button>
+                                        </div>
+                                    </template>
                                 </place-description>
                             </template>
                         </fade-in-out>
@@ -80,20 +151,24 @@
                         <welcome-button @welcomeButtonClicked="dashboard=!dashboard" :activeClass="dashboard" buttonText='dashboard'>
                         </welcome-button>
                         <fade-in-out>
-                            <template slot="transition">
+                            <template #transition>
                                 <place-description v-if="dashboard">
-                                    <div slot="body">
-                                        <div class="section-body">
-                                            this section is so personal to you.
-                                            this is where you will get to add or access private information.
-                                            you will only be able to access one
+                                    <template #body>
+                                        <div>
+                                            <div class="section-body">
+                                                this section is so personal to you.
+                                                this is where you will get to add or access private information.
+                                                you will only be able to access one
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div slot="button">
-                                        <post-button buttonText='dashboard'
-                                            @click="clickedPostButton"
-                                        ></post-button>
-                                    </div>
+                                    </template>
+                                    <template #button>
+                                        <div>
+                                            <post-button buttonText='dashboard'
+                                                @click="clickedPostButton"
+                                            ></post-button>
+                                        </div>
+                                    </template>
                                 </place-description>
                             </template>
                         </fade-in-out>
@@ -102,51 +177,50 @@
                         <welcome-button @welcomeButtonClicked="profile=!profile" :activeClass="profile" buttonText='profile'>
                         </welcome-button>
                         <fade-in-out>
-                            <template slot="transition">
+                            <template #transition>
                                 <place-description v-if="profile" :info='info'>
-                                    <div slot="body">
-                                        <div class="section-body">
-                                            this is where you will get to show the world who you are and what your contributions are
-                                            to this new community.
+                                    <template #body>
+                                        <div>
+                                            <div class="section-body">
+                                                this is where you will get to show the world who you are and what your contributions are
+                                                to this new community.
 
-                                            note:'you can see your profile in entirety or as specific user types such as Learner,
-                                            Facilitator, Professional, etc. People who will visit your profile will only be seeing the 
-                                            profile of the specific user type in which they are interested'
+                                                note:'you can see your profile in entirety or as specific user types such as Learner,
+                                                Facilitator, Professional, etc. People who will visit your profile will only be seeing the 
+                                                profile of the specific user type in which they are interested'
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div slot="button">
-                                        <post-button buttonText='profiles'
-                                            @click="clickedPostButton"
-                                        ></post-button>
-                                        <div class="profiles" v-if="showProfiles">
-                                            <div class="no-profile"
-                                                v-if="!computedProfiles.length"
-                                            >no profiles</div>
-                                            <profile-bar
-                                                v-for="(profile,index) in computedProfiles"
-                                                :key="index"
-                                                :smallType="true"
-                                                :profile="profile"
-                                                :navigate="false"
-                                                @clickedProfile="clickedProfile"
-                                            ></profile-bar>
+                                    </template>
+                                    <template #button>
+                                        <div>
+                                            <post-button buttonText='profiles'
+                                                @click="clickedPostButton"
+                                            ></post-button>
+                                            <div class="profiles" v-if="showProfiles">
+                                                <div class="no-profile"
+                                                    v-if="!computedProfiles.length"
+                                                >no profiles</div>
+                                                <profile-bar
+                                                    v-for="(profile,index) in computedProfiles"
+                                                    :key="index"
+                                                    :smallType="true"
+                                                    :profile="profile"
+                                                    :navigate="false"
+                                                    @clickedProfile="clickedProfile"
+                                                ></profile-bar>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <template slot="info">
+                                    </template>
+                                    <template #info>
                                         
                                     </template>
                                 </place-description>
                             </template>
                         </fade-in-out>
-
-                        <div class="edit-user">
-                            <post-button buttonText='edit user'
-                                @click="editUser"
-                            ></post-button>
-                        </div>
+                        
                     </div>
                     <div class="welcome-who">
-                        <div class="who-heading">
+                        <div class="who-heading text-center">
                             additional roles you can play in YourEdu community
                         </div>
                         <div class="create-section" v-if="computedCreationSection">
@@ -154,7 +228,7 @@
                                 creation of the various community members
                             </div>
                                 <place-description>
-                                    <template slot="body">
+                                    <template #body>
                                         <div class="question">
                                             who will I be?
                                         </div>
@@ -168,12 +242,14 @@
                                             {{what}}
                                         </div>
                                     </template>
-                                    <div slot="button">
-                                        <post-button 
-                                            :buttonText="become" 
-                                            @click="becomeClicked"
-                                        ></post-button>
-                                    </div>
+                                    <template #button>
+                                        <div>
+                                            <post-button 
+                                                :buttonText="become" 
+                                                @click="becomeClicked"
+                                            ></post-button>
+                                        </div>
+                                    </template>
                                 </place-description>
                         </div>
                         <div class="users">
@@ -328,6 +404,12 @@ import { useRouter } from 'vue-router'
             computedCreationSection(){
                 return this.formType.length ? true : false
             },
+            computedDob(){
+                let dob = this.getUser.dob 
+                if (!dob) return null
+
+                return new Date(dob).toDateString()
+            }
         },
         methods: {
             clickedPostButton(data){
@@ -381,7 +463,7 @@ $welcome-main-color: rebeccapurple;
     }
 
     .welcome-wrapper{
-        background-color: aliceblue;
+        // background-color: aliceblue;
 
         .welcome-message{
             display: block;
@@ -457,13 +539,10 @@ $welcome-main-color: rebeccapurple;
                 .places-heading,
                 .who-heading{
                     display: block;
-                    color: $welcome-main-color;
+                    color: $color-secondary;
                     font-weight: 800;
-                    text-shadow: 0.5px 0.5px 0.5px aqua;
                     font-size: 18px;
                     font-variant: small-caps;
-                    border-top: 2px solid $welcome-main-color;
-                    border-left: 2px solid $welcome-main-color;
                     margin-bottom: 10px;
                     padding: 5px;
                 }
@@ -487,9 +566,6 @@ $welcome-main-color: rebeccapurple;
 
                 .who-heading{
                     text-align: right;
-                    border-left: 0;
-                    border-right: 2px solid $welcome-main-color;
-                    padding-bottom: 10%;
                 }
 
                 .create-section{
@@ -551,8 +627,6 @@ $welcome-main-color: rebeccapurple;
 
                 .who-heading{
                     font-size: 16px;
-                    border-right: 2px solid $welcome-main-color;
-                    border-left: 0;
                 }
             }
 

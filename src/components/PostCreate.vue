@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 <fade-right>
-                    <template slot="transition">
+                    <template #transition>
                         <post-button 
                             buttonText="post"
                             @click="clickedCreatePost"
@@ -142,7 +142,7 @@
             <div class=" post-middle">
                 <div class="post-picture">
                     <profile-picture>
-                        <template slot="image">
+                        <template #image>
                             <img :src="computedProfileUrl">
                         </template>
                     </profile-picture>
@@ -154,7 +154,7 @@
                         v-if="showTextareaContent"
                     ></main-textarea>
                     <just-fade>
-                        <template slot="transition" v-if="showPreview">
+                        <template #transition v-if="showPreview">
                             <file-preview
                                 :show="showPreview"
                                 :file="file"
@@ -163,7 +163,7 @@
                         </template>
                     </just-fade>
                     <just-fade>
-                        <template slot="transition" v-if="showMainPreview">
+                        <template #transition v-if="showMainPreview">
                             <main-preview
                                 @clickedBadge="removePreview"
                                 :file='computedPreviewFile'
@@ -191,28 +191,28 @@
                 class="hidden">
             <div class="post-bottom">
                 <post-button buttonText="L" 
-                    @click="formType = 'lesson'"
+                    @click="() => changeFormType('lesson')"
                     :active="formType === 'lesson'"
                     titleText="share a lesson"></post-button>
                 <post-button buttonText="B" 
-                    @click="formType = 'book'"
+                    @click="() => changeFormType('book')"
                     :active="formType === 'book'"
                     titleText="post a book"></post-button>
                 <post-button buttonText="R" 
-                    @click="formType = 'riddle'"
+                    @click="() => changeFormType('riddle')"
                     titleText="post a riddle"
                     :active="formType === 'riddle'"
                 ></post-button>
                 <post-button buttonText="P" 
-                    @click="formType = 'poem'"
+                    @click="() => changeFormType('poem')"
                     :active="formType === 'poem'"
                     titleText="post a poem"></post-button>
                 <post-button buttonText="Q" 
-                    @click="formType = 'question'"
+                    @click="() => changeFormType('question')"
                     :active="formType === 'question'"
                     titleText="post a question"></post-button>
                 <post-button buttonText="A" 
-                    @click="formType = 'activity'"
+                    @click="() => changeFormType('activity')"
                     :active="formType === 'activity'"
                     titleText="post an activity"></post-button>
             </div>
@@ -228,7 +228,7 @@
             </div>
             <!--for adding attachments -->
             <just-fade>
-                <template slot="transition" v-if="showAddAttachments">
+                <template #transition v-if="showAddAttachments">
                     <post-attachment
                         :show="showAddAttachments"
                         :hasSelect="true"
@@ -240,7 +240,7 @@
         </div>
         <!-- creating posts types -->
         <just-fade>
-            <template slot="transition" v-if="showModal">
+            <template #transition v-if="showModal">
                 <create-post
                     :type="formType"
                     :showForm="showModal"
@@ -369,7 +369,7 @@ import { useRoute } from 'vue-router'
             }
         },
         computed: {
-            ...mapGetters(['getProfiles', 'getActiveProfile', 
+            ...mapGetters(['getProfiles', 'getUser', 'getActiveProfile', 
                 'profile/getActiveProfile']),
             computedPost(){
                 return this.textareaContent !== '' || this.file || this.showPostButton || 
@@ -526,6 +526,15 @@ import { useRoute } from 'vue-router'
                     this.accountId = null
                     this.createPost()
                 }
+            },
+            changeFormType(type) {
+                if (!this.getUser)
+                    return this.$emit('askForLogin')
+                
+                if (!this.getUser)
+                    return this.$emit('askForLogin')
+
+                this.formType = type
             },
             clickedCreateLesson(data){
                 this.mainPreviewData = data

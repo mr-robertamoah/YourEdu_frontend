@@ -1,32 +1,38 @@
 <template>
     <div class="home-main-wrapper">
-        <div class="extras-section">
-            <post-button 
-                buttonText="discussion" 
-                @click="clickedPostButton('discussion')"
-                titleText="have something to discuss?"
-            ></post-button>
-            <post-button 
-                buttonText="assessment" 
-                @click="clickedPostButton('assessment')"
-                titleText="want to create an assessment?"
-            ></post-button>
-        </div>
         <div class="loading" v-if="otherLoading">
             <pulse-loader :loading="otherLoading" :size="'10px'"></pulse-loader>
         </div>
         <div class="alert" 
-            v-if="alertMessage.length"
-            :class="{success:alertSuccess, danger:alertDanger}"
+            v-if="alertData.message?.length"
+            :class="{success: alertData.success, danger:alert.danger}"
         >
-            {{alertMessage}}
+            {{alertData.message}}
         </div>
-        <post-create v-if="computedPostCreate"></post-create>
+        <div v-if="computedCanCreatePost">
+            <post-create></post-create>
+            <div class="extras-section">
+                <post-button 
+                    buttonText="discussion" 
+                    @click="() => clickedPostButton('discussion')"
+                    titleText="have something to discuss?"
+                ></post-button>
+                <post-button 
+                    buttonText="assessment" 
+                    @click="() => clickedPostButton('assessment')"
+                    titleText="want to create an assessment?"
+                ></post-button>
+            </div>
+        </div>
         <div 
-            v-else-if="!loading && !computedPostCreate"
-            @askLoginRegister="askLoginRegister"
+            v-else-if="!loading && !computedCanCreatePost"
+            class="text-gray-600 w-[90%] mx-auto text-center text-sm cursor-pointer"
         >
-            <!-- TODO must finish work on this -->
+            {{
+                computedUser ?
+                'you must have a user account or be logged in to access your learner, facilitator, professional, etc accounts.' :
+                'You can only create a post if you have any of the following accounts: learner, facilitator, professional, etc.'
+            }}
         </div>
         <div class="loading" v-if="loading">
             <pulse-loader
@@ -34,7 +40,7 @@
             ></pulse-loader>
         </div>
         <div 
-            v-if="posts"
+            v-if="posts?.length"
             class="w-[90%] mx-auto md:max-w-xl space-y-12 mt-20"
         >
             <template
@@ -63,10 +69,16 @@
                 ></assessment-single>
             </template>
         </div>
+        <div
+            class="min-h-[50vh] w-full justify-center flex items-center"
+        >
+            <div
+                class="text-lg font-bold bg-gradient-to-r from-youredubrown to-youredugreen w-fit mx-auto bg-clip-text text-transparent"
+            >no posts</div>
+        </div>
 
         <!-- create discussion -->
         <create-discussion
-            v-if="showCreateItem === 'discussion'"
             :show="showCreateItem === 'discussion'"
             @createDiscussionDisappear="clickedCloseCreateItem"
             @clickedCreate="clickedCreateDiscussion"
@@ -81,7 +93,7 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import PostCreate from '../PostCreate.vue'
 import PostCreateAlt from '../PostCreateAlt.vue'
 import PostButton from '../PostButton.vue'
@@ -90,135 +102,121 @@ import CreateAssessment from '../forms/CreateAssessment.vue'
 import PostSingle from '../PostSingle.vue'
 import DiscussionSingle from '../DiscussionSingle.vue'
 import AssessmentSingle from '../AssessmentSingle.vue'
+import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
+import useAlert from '../../composables/useAlert'
 
-import { mapGetters, mapActions } from 'vuex'
+const { alertData, clearAlert, issueDangerAlert, issueSuccessAlert } = useAlert()
+const store = useStore()
+const emits = defineEmits([
+    'clickedShowPostComments', 'clickedShowPostPreview', 'askLoginRegister', 'clickedMedia',
+])
+const props = defineProps({
+    loading: {
+        type: Boolean,
+        default: false
+    },
+    posts: {
+        type: Array,
+        default() {
+            return []
+        }
+    },
+})
 
+const showLoginRegister = ref(false)
+const showCreateItem = ref('')
+const otherLoading = ref(false)
 
-    export default {
-        components: {
-            CreateAssessment,
-            CreateDiscussion,
-            PostButton,
-            PostCreate,
-            PostCreateAlt,
-            
-            AssessmentSingle,
-            DiscussionSingle,
-            PostSingle,
-            
-        },
-        props: {
-            loading: {
-                type: Boolean,
-                default: false
-            },
-            posts: {
-                type: Array,
-                default() {
-                    return []
-                }
-            },
-        },
-        data() {
+const computedCanCreatePost = computed(() => {
+    return store.getters.getProfiles && store.getters.getProfiles.length ? true : false
+})
+const computedUser = computed(() => {
+    return !!store.getters.getUser
+})
+
+function clickedPostButton(text){
+    showCreateItem.value = text
+}
+
+function clickedCloseCreateItem(){
+    showCreateItem.value = ''
+}
+
+async function clickedCreateDiscussion(data) {
+    let response,
+        formData = new FormData
+
+    otherLoading.value = true
+
+    formData.append('account', data.account)
+    formData.append('accountId', data.accountId)
+    formData.append('title', data.title)
+    formData.append('type', data.type)
+    formData.append('allowed', data.allowed)
+    formData.append('restricted', JSON.stringify(data.restricted))
+    formData.append('preamble', data.preamble)
+
+    data.files.forEach(file=>{
+        formData.append('file[]', file)
+    })
+
+    if (data.postAttachments.length) {
+        formData.append('attachments', JSON.stringify(data.postAttachments.map(attachment=>{
             return {
-                showLoginRegister: false,
-                showCreateItem: '',
-                otherLoading: false,
-                alertDanger: false,
-                alertSuccess: false,
-                alertMessage: ''
+                attachable: attachment.type.slice(0,attachment.type.length - 1),
+                attachableId: attachment.data.id
             }
-        },
-        computed: {
-            ...mapGetters(['getProfiles']),
-            computedPostCreate(){
-                return this.getProfiles && this.getProfiles.length ? true : false
-            },
-        },
-        methods: {
-            ...mapActions(['profile/createDiscussion',
-                'profile/createAssessment', 'dashboard/createAssessment'
-            ]),
-            clickedPostButton(text){
-
-                this.showCreateItem = text
-            },
-            clickedCloseCreateItem(){
-                this.showCreateItem = ''
-            },
-            clearAlert(){
-                setTimeout(() => {
-                    this.alertDanger = false
-                    this.alertSuccess = false
-                    this.alertMessage = ''
-                }, 3000);
-            },
-            async clickedCreateDiscussion(data){
-                let response,
-                    formData = new FormData
-
-                this.otherLoading = true
-
-                formData.append('account', data.account)
-                formData.append('accountId', data.accountId)
-                formData.append('title', data.title)
-                formData.append('type', data.type)
-                formData.append('allowed', data.allowed)
-                formData.append('restricted', JSON.stringify(data.restricted))
-                formData.append('preamble', data.preamble)
-                data.files.forEach(file=>{
-                    formData.append('file[]', file)
-                })
-                if (data.postAttachments.length) {
-                    formData.append('attachments', JSON.stringify(data.postAttachments.map(attachment=>{
-                        return {
-                            attachable: attachment.type.slice(0,attachment.type.length - 1),
-                            attachableId: attachment.data.id
-                        }
-                    })))
-                }
-
-                response = await this['profile/createDiscussion'](formData)
-
-                this.otherLoading = false
-
-                this.handleResponse(response, 'discussion')
-            },
-            handleResponse(response, item) {
-                if (response.status) {
-                    this.alertSuccess = true
-                    this.alertMessage = `${item} created successfully`
-                } else {
-                    console.log('response :>> ', response);
-                    this.alertDanger = true
-                    this.alertMessage = `${item} creation failed`
-                }
-                this.clearAlert()
-            },
-            async clickedCreateAssessment(formData) {
-
-                this.otherLoading = true
-
-                let response = await this['dashboard/createAssessment'](formData)
-
-                this.otherLoading = false
-                
-                this.handleResponse(response, 'assessment')
-            },
-            clickedShowPostComments(data){
-                this.$emit('clickedShowPostComments',data)
-            },
-            clickedShowPostPreview(data){
-                this.$emit('clickedShowPostPreview',data)
-            },
-            askLoginRegister(){
-                this.$emit('askLoginRegister','HomeMain')
-            },
-            clickedMedia(data){
-                this.$emit('clickedMedia',data)
-            },
-        },
+        })))
     }
+
+    response = await store.dispatch('profile/createDiscussion', formData)
+
+    otherLoading.value = false
+
+    handleResponse(response, 'discussion')
+}
+
+function handleResponse(response, item) {
+    if (response.status)
+        issueSuccessAlert({
+            message: `${item} created successfully`
+        })
+    else
+        issueDangerAlert({
+            message: `${item} creation failed`
+        })
+    
+    setTimeout(() => {
+        clearAlert()
+    }, 5000);
+}
+
+async function clickedCreateAssessment(formData) {
+    otherLoading.value = true
+
+    let response = await store.dispatch('dashboard/createAssessment', formData)
+
+    otherLoading.value = false
+    
+    handleResponse(response, 'assessment')
+}
+
+function clickedShowPostComments(data){
+    emits('clickedShowPostComments',data)
+}
+
+function clickedShowPostPreview(data){
+    emits('clickedShowPostPreview',data)
+}
+
+function askLoginRegister(){
+    emits('askLoginRegister','HomeMain')
+}
+
+function clickedMedia(data){
+    emits('clickedMedia',data)
+}
 </script>
 
 <style lang="scss" scoped>

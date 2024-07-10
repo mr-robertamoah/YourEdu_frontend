@@ -1,5 +1,5 @@
 <template>
-    <button class="p-1 btn btn-size" 
+    <button class="p-1 min-w-24 px-2" 
         :class="{active:makeActive, danger:makeDanger, 
             success:makeSuccess, disabled: makeDisabled,colorRed:colorRed}" 
         :title="titleText"

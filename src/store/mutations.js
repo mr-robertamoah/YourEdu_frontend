@@ -12,7 +12,6 @@ const mutations = {
     },
 
     LOGIN_SUCCESS(state, data){
-        // console.log('login success data',data)
         state.authenticating = false
         state.loggedin = true
         state.user = data.user
@@ -54,6 +53,8 @@ const mutations = {
     },
 
     VALIDATION_ERRORS(state,{errors}){
+        state.authenticating = false
+        state.authenticatingUser = false
         state.validationErrors = errors
     },
 

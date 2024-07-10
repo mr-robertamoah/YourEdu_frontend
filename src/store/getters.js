@@ -66,46 +66,56 @@ const getters = {
     },
     
     getProfiles(state){
-
-        if (state.user) {
+        if (state.user)
             return state.user.profiles
-        }
         
         return null
     },
     
     getActiveProfile(state,getters){
-        return state.profile.activeProfile ? state.profile.activeProfile : 
+        return state.profile?.activeProfile ? state.profile.activeProfile : 
             getters.getProfiles ? getters.getProfiles[0] : null
     },
+
     getLoggedin(state){
-        return state.loggedin
+        return !! state.user
     },
+
     isParent(state){
+        if (!state.user?.profiles?.length) return false
+
         return state.user.profiles.findIndex(profile=>{
             return profile.account === 'parent'
         }) > -1 
     },
 
     isLearner(state){
-        return state.user.profiles.findIndex(profile=>{
+        if (!state.user?.profiles?.length) return false
+
+        return state.user?.profiles.findIndex(profile=>{
             return profile.account === 'learner'
         }) > -1 
     },
 
     isFacilitator(state){
+        if (!state.user?.profiles?.length) return false
+
         return state.user.profiles.findIndex(profile=>{
             return profile.account === 'facilitator'
         }) > -1 
     },
 
     professionalsCount(state){
+        if (!state.user?.profiles?.length) return 0
+
         return state.user.profiles.filter(profile=>{
             return profile.account === 'professional'
         }).length
     },
 
     schoolsCount(state){
+        if (!state.user?.profiles?.length) return 0
+
         return state.user.profiles.filter(profile=>{
             return profile.account === 'school' && profile.userId === state.user.id
         }).length

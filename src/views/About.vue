@@ -203,7 +203,7 @@
                                             <GitHubIcon class="w-10 h-10 rounded-full bg-youredubrown"/>
                                             <div>frontend</div>
                                         </a>
-                                        <a href="https://github.com/mr-robertamoah/YourEdu_frontend" class="flex justify-center font-bold items-center text-blue-800 gap-2 w-full mx-auto my-2">
+                                        <a href="https://github.com/mr-robertamoah/YourEdu" class="flex justify-center font-bold items-center text-blue-800 gap-2 w-full mx-auto my-2">
                                             <GitHubIcon class="w-10 h-10 rounded-full bg-blue-800"/>
                                             <div>backend</div>
                                         </a>

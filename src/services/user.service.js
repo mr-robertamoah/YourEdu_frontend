@@ -31,12 +31,12 @@ const loginRegister = {
         } else if (url.includes('register')) {
             // console.log(sentData)
             const {username,email,password, 
-                password_confirmation, first_name, last_name,
-                other_names, dob} = sentData
+                passwordConfirmation, first_name: firstName, last_name: lastName,
+                other_names: otherNames, dob} = sentData
             
             response = await ApiService.post(url, {username, email, password, 
-                password_confirmation, first_name, last_name, 
-                other_names, dob})
+                passwordConfirmation, firstName, lastName, 
+                otherNames, dob})
         }
 
         return response.data

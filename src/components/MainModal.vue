@@ -4,7 +4,7 @@
         @click.self="disappear"
         :class="{long}"
     >
-        <div class="main-modal" 
+        <div class="main-modal overflow-hidden overflow-y-auto" 
             :class="{dark}" 
             @click.self="clickedMain"
             ref="mainmodal"
@@ -12,32 +12,30 @@
             <div class="close" @click="disappear">
                 <font-awesome-icon :icon="['fas','times']"></font-awesome-icon>
             </div>
-            <template>
-                <div class="heading">
-                    {{heading}}
-                    <slot name="heading" v-if="!computedHeading"></slot>
-                </div>
-                <div class="loading-errors" v-if="loading">
-                    <slot name="loading"></slot>
-                    <slot name="errors"></slot>
-                </div>
-                <div class="main" v-if="computedMain">
-                    <slot name="main"></slot>
-                </div>
-                <div class="main-other" v-if="computedMainOther">
-                    <slot name="main-other"></slot>
-                </div>
-                <div class="requests" 
-                    v-if="!loading && requests"
-                    :class="{alone: requestsAlone}"
-                >
-                    <slot name="requests"></slot>
-                </div>
-            
-                <slot></slot>
-            </template>
+            <div class="heading">
+                {{heading}}
+                <slot name="heading" v-if="!computedHeading"></slot>
+            </div>
+            <div class="loading-errors" v-if="loading">
+                <slot name="loading"></slot>
+                <slot name="errors"></slot>
+            </div>
+            <div class="main" v-if="computedMain">
+                <slot name="main"></slot>
+            </div>
+            <div class="main-other" v-if="computedMainOther">
+                <slot name="main-other"></slot>
+            </div>
+            <div class="requests" 
+                v-if="!loading && requests"
+                :class="{alone: requestsAlone}"
+            >
+                <slot name="requests"></slot>
+            </div>
+        
+            <slot name="default"></slot>
             <fade-right>
-                <template slot="transition"  v-if="showAlert">
+                <template #transition  v-if="showAlert">
                     <div class="alert-wrapper">
                         <div class="alert"
                             :class="{alertError:alertError,alertSuccess:alertSuccess}"

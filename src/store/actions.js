@@ -259,9 +259,9 @@ const actions = {
             }
         }catch (e){
             console.log(e)
-            if (e && e.response.config.url.includes('api/user')) {
+            if (e?.config?.url?.includes('api/user'))
                 commit('RELOAD_FAILURE', '')
-            }
+            
             TokenService.removeUser()
             // dispatch('logout')
         }
@@ -279,8 +279,7 @@ const actions = {
                 commit('LOGIN_SUCCESS', data)
                 commit('CLEAR_VALIDATION_ERRORS')
             } else {
-                console.log('error in actions',data)
-                TokenService.removeUser()
+                await TokenService.removeUser()
                 commit('VALIDATION_ERRORS', data)
             }
             

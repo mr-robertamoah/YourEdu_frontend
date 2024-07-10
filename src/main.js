@@ -31,6 +31,7 @@ import SmallModal from './components/SmallModal.vue'
 import MainModal from './components/MainModal.vue'
 import MediaModal from './components/MediaModal.vue'
 import PostModal from './components/PostModal.vue'
+import ProfileBar from './components/profile/ProfileBar.vue'
 import WelcomeForm from './components/welcome/WelcomeForm.vue'
 import JustFade from './components/transitions/JustFade.vue'
 import UserAddons from './components/UserAddons.vue'
@@ -69,6 +70,7 @@ const app = createApp(App)
 .component('main-modal', MainModal)
 .component('media-modal', MediaModal)
 .component('post-modal', PostModal)
+.component('profile-bar', ProfileBar)
 .component('welcome-form', WelcomeForm)
 .component('just-fade', JustFade)
 .component('user-addons', UserAddons)

@@ -33,106 +33,101 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'TextInput',
-        props: {
-            inputType: {
-                type: String,
-                default: 'text'
-            },
-            placeholder: {
-                type: String,
-                default: ''
-            },
-            error: {
-                type: Boolean,
-                default: false
-            },
-            bottomBorder: {
-                type: Boolean,
-                default: false
-            },
-            sm: {
-                type: Boolean,
-                default: false
-            },
-            noBorder: {
-                type: Boolean,
-                default: false
-            },
-            hasMax: {
-                type: Boolean,
-                default: false
-            },
-            inputmode: {
-                type: String,
-                default: ''
-            },
-            pattern: {
-                type: String,
-                default: ''
-            },
-            inputMax: {
-                type: Number,
-                default: 100
-            },
-            inputMin: {
-                type: Number,
-                default: 5
-            },
-            modelValue: {
-                type: String,
-                default: ''
-            },
-            title: {
-                type: String,
-                default: ''
-            },
-            prepend: {
-                type: Boolean,
-                default: false
-            },
-            icon: {
-                type: Array,
-                default: ()=>{
-                    return []
-                }
-            },
-        },
-        data() {
-            return {
-                inputValue: '',
-            }
-        },
-        watch: {
-            inputValue(newValue,oldValue) {
-                if (this.hasMax && (newValue.length > this.inputMax)) {
-                    this.inputValue = oldValue
-                    this.$emit('update:modelValue', oldValue)
-                    return
-                }    
-                this.$emit('update:modelValue', newValue)
-            },
-            value: {
-                immediate:true,
-                handler(newValue){
-                    if (newValue !== this.inputValue) {
-                        this.inputValue = newValue   
-                    }
-                }
-            },
-        },
-        methods: {
-            iconChange() {
-                this.$emit('iconChange')
-            },
-            sendText() {
-                this.$emit('keyupenter', this.inputValue)
-                this.$emit('keydown.enter', this.inputValue)
-            },
-        },
+<script setup>
+import { ref, watch, watchEffect } from 'vue'
+
+const emits = defineEmits(['update:modelValue', 'iconChange', 'keyupenter', 'keydown.enter'])
+const props = defineProps({
+    inputType: {
+        type: String,
+        default: 'text'
+    },
+    placeholder: {
+        type: String,
+        default: ''
+    },
+    error: {
+        type: Boolean,
+        default: false
+    },
+    bottomBorder: {
+        type: Boolean,
+        default: false
+    },
+    sm: {
+        type: Boolean,
+        default: false
+    },
+    noBorder: {
+        type: Boolean,
+        default: false
+    },
+    hasMax: {
+        type: Boolean,
+        default: false
+    },
+    inputmode: {
+        type: String,
+        default: ''
+    },
+    pattern: {
+        type: String,
+        default: ''
+    },
+    inputMax: {
+        type: Number,
+        default: 100
+    },
+    inputMin: {
+        type: Number,
+        default: 5
+    },
+    modelValue: {
+        type: String,
+        default: ''
+    },
+    title: {
+        type: String,
+        default: ''
+    },
+    prepend: {
+        type: Boolean,
+        default: false
+    },
+    icon: {
+        type: Array,
+        default: ()=>{
+            return []
+        }
+    },
+})
+
+const inputValue = ref('')
+
+watch(() => inputValue.value, (newValue,oldValue) => {
+    if (props.hasMax && (newValue.length > props.inputMax)) {
+        inputValue.value = oldValue
+        emits('update:modelValue', oldValue)
+        return
+    }    
+
+    emits('update:modelValue', newValue)
+})
+
+watch(() => props.value, () => {
+    if (props.value !== inputValue.value) {
+        inputValue.value = props.value   
     }
+})
+
+function iconChange() {
+    emits('iconChange')
+}
+
+function sendText() {
+    emits('keyupenter', inputValue.value)
+    emits('keydown.enter', inputValue.value)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -5,6 +5,9 @@ const ApiService = {
 
     init(baseURL){
         axios.defaults.baseURL = baseURL
+        axios.defaults.withCredentials = true
+        axios.defaults.withXSRFToken = true
+        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     },
 
     setHeaderAuth() {

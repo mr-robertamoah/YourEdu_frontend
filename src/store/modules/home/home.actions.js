@@ -27,7 +27,7 @@ const actions = {
         commit('LOADING_START')
         let response = await HomeService.postsGet(data)
         commit('LOADING_END')
-        if (! response.data.data) {
+        if (! response?.data?.data) {
             return 'unsuccessful'
         }
 

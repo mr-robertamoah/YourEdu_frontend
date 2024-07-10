@@ -1,6 +1,6 @@
 <template>
     <just-fade>
-        <template slot="transition" v-if="show">
+        <template #transition v-if="show">
             <main-modal
                 :show="show"
                 :mainOther="false"
@@ -9,12 +9,12 @@
                 @mainModalDisappear='closeModal'
                 class="create-asessment-modal-wrapper"
             >
-                <template slot="main">
+                <template #main>
                     <welcome-form
                         :title="title"
                         class="welcome-form"
                     >
-                        <template slot="input">
+                        <template #input>
                             <auto-alert
                                 :message="alertMessage"
                                 :success="alertSuccess"
@@ -251,7 +251,7 @@
                                 ></assessment-section-badge>
                             </div>
                         </template>
-                        <template slot="buttons">
+                        <template #buttons>
                             <div class="profiles"
                                 v-if="showProfiles"
                             >

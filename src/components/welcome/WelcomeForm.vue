@@ -12,33 +12,21 @@
     </div>
 </template>
 
-<script>
+<script setup>
 
-    export default {
-        props: {
-            title: {
-                type: String,
-                default: ''
-            },
-            titleBadge: {
-                type: Boolean,
-                default: false
-            },
-        },
-        data() {
-            return {
-
-            }
-        },
-        components: {
-        },
-        methods: {
-
-        },
-    }
+const props = defineProps({
+    title: {
+        type: String,
+        default: ''
+    },
+    titleBadge: {
+        type: Boolean,
+        default: false
+    },
+})
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $main-color: aliceblue;
 $input-color: rgba(22, 233, 205, 1);
 
@@ -104,6 +92,7 @@ $input-color: rgba(22, 233, 205, 1);
 
             .form-edit{
                 margin: 10px auto;
+                max-width: 70%;
             }
 
             .ask-answers{

@@ -1,8 +1,8 @@
 import store from "../store";
 import { TokenService } from "../services/token.service";
 
-const routerBeforeEach = (to, from, next) => {
-    let isLoggedIn = !! TokenService.getUser()
+const routerBeforeEach = async (to, from, next) => {
+    let isLoggedIn = !! await TokenService.getUser()
     let requiresLogin = to.matched.some(record => record.meta.requiresLogin)
     let doesntRequireLoginNot = to.matched.some(record => record.meta.doesntRequireLoginNot)
 
