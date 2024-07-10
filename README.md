@@ -1,7 +1,39 @@
-# Vue 3 + Vite
+![YourEdu Logo](src/assets/logo.png)
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## Recommended IDE Setup
+<h1 style="text-align: center;">YourEdu</h1>
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+<h2 style="text-align: center;">BACKEND</h2>
+
+### Introduction
+This is the frontend of the YourEdu educational platform that seeks to bring all major stackholders together into bridging the gaps the exists in educational quality across our societies.
+
+Explore the [app](https://bobdev.tech) or visit its [landing page](https://bobdev.tech/about) to learn more about it.
+
+### Team
+
+<p style="display: flex; align-items: center; gap: 10px;">
+    <img src="src/assets/robertamoah.png" style="border-radius: 100%" width="45" heigth="45" />
+    Robert Amoah (<a href="https://www.linkedin.com/in/mr-robert-amoah">linkedIn</a>, <a href="https://x.com/Mr_robertamoah">X</a>) - Full stack developer 
+</p>
+
+### Installation
+
+- Clone repository
+- cd into directory
+- Install assets with npm or yarn
+
+### Usage
+
+This is the usage on your local system
+
+<ul>
+    <li>
+        Run either of the following:
+        <ul>
+            <li>For npm: npm run</li>
+            <li>For yarn: yarn</li>
+        </ul>
+    </li>
+    <li>Visit the local development host provided by vite.</li>
+</ul>
